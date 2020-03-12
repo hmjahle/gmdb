@@ -1,2 +1,4 @@
 "# gmdb" 
-/out/
+.idea
+out
+gmdb.iml
