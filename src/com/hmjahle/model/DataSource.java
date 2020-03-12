@@ -34,9 +34,6 @@ public class DataSource {
     }
 
     public List<String> getActorRoles(String name)  {
-        // 0. Making a connection
-        // 1. Get a connection
-        // 2. Create a statement
         StringBuilder sb = new StringBuilder("select distinct skuespillerIProduksjon.rolle from skuespillerIProduksjon, mediePerson ");
         sb.append("where skuespillerIProduksjon.MediePersonID =");
         sb.append("(select mediePerson.MediePersonID from mediePerson where Navn = '");
