@@ -1,9 +1,7 @@
 package com.hmjahle.model;
 
 import javax.xml.validation.SchemaFactoryLoader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DataSource {
     public static final String DB_NAME = "gmdb";
@@ -25,6 +23,23 @@ public class DataSource {
             return false;
         }
     };
+
+    public static void getActorRoles(String name) throws SQLException {
+        // 0. Making a connection
+        GMDb myDB = new GMDb("jdbc:mysql://localhost:3306/GMDb", "root", "hjalma1402");
+        // 1. Get a connection
+        Connection myConn = DriverManager.getConnection(myDB.HOST, myDB.UNAME, myDB.UPASS);
+        // 2. Create a statement
+        Statement stmt = myConn.createStatement();
+        // 3. Execute a SLQ query
+        ResultSet myRs = stmt.executeQuery("select distinct skuespillerIProduksjon.rolle from skuespillerIProduksjon, mediePerson\r\n" +
+                "where skuespillerIProduksjon.MediePersonID =\r\n" +
+                "      (select mediePerson.MediePersonID from mediePerson where Navn ='" + name + "');");
+        // 4. Process the result set
+        while(myRs.next()) {
+            System.out.println(name + " spiller rollen til: " + myRs.getString("Rolle"));
+        }
+    }
 
     public void close() {
         try {
